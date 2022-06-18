@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, Verdana, Tahoma;
+}
+
+.chartContainer {
+    border: 2px solid gray;
+    margin: 0;
+}
+
+.tvchart {
+    padding: 5px 10px 5px 10px;
+}
+
+.chartContainer.active {
+    border-color: #0091ea;
+}
+
+.topbar {
+    padding: 5px;
+}
+
+.active .topbar {
+    background-color: #81d4fa;
+}
+
+.topbar {
+    background-color: #ECEFF1;
+}
+
+.currentPrice {
+    margin: 0 10px;
+}
+
+.topBarRight {
+    float: right;
+}
+
+.quantityBar {
+    padding: 5px;
+    border-bottom: solid 1px black;
+}
+
+.quantityBar button {
+    margin: 0 2px;
+}
+
+.quantityBar input {
+    width: 60px;
+}
