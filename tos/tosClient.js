@@ -203,6 +203,7 @@ window.TradingApp.TOS = (function () {
 
     /* #region Price history, Quote */
     const getPriceHistory = async (symbol) => {
+        return {};
         let date = new Date();
         date.setDate(date.getDate() + 1);
         let end = window.TradingApp.DB.jsDateToUTC(date) * 1000;

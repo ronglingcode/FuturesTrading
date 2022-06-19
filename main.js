@@ -21,12 +21,7 @@ window.TradingApp.TOS.initialize().then(() => {
     // get price history
     for (let i = 0; i < window.TradingApp.Watchlist.length; i++) {
         let symbol = window.TradingApp.Watchlist[i].symbol;
-        window.TradingApp.TOS.getPriceHistory(symbol).then(response => response.json()).then(json => {
-            // populate current chart
-            window.TradingApp.DB.initialize(symbol, json);
-            let symbolAccount = window.TradingApp.TOS.filterAccountBySymbol(symbol, window.TradingApp.TOS.initialAccount);
-            window.TradingApp.Chart.updateAccountUIStatusForSymbol(symbol, symbolAccount);
-        });
+        window.TradingApp.DB.initialize(symbol, {});
     }
 });
 
