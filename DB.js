@@ -52,18 +52,8 @@ window.TradingApp.DB = (function () {
         let highOfDay = 0;
         let lowOfDay = 99999999;
 
-        let premktHigh = 0;
-        let premktLow = 99999999;
         let totalVolume = 0;
         let totalTradingAmount = 0;
-        for (let i = 0; i < window.TradingApp.Watchlist.length; i++) {
-            if (window.TradingApp.Watchlist[i].symbol === symbol) {
-                let item = window.TradingApp.Watchlist[i];
-                premktHigh = item.premktHigh;
-                premktLow = item.premktLow;
-                break;
-            }
-        }
 
         data = priceHistory.candles;
         if (!data) {
@@ -103,16 +93,6 @@ window.TradingApp.DB = (function () {
             volumes.push({ time: newD, value: element.volume });
 
             if (newCandle.minutesSinceMarketOpen < 0) {
-                // update pre-market indicators
-                if (element.low < premktLow) {
-                    premktLow = Math.floor(element.low * 100) / 100;
-                    window.TradingApp.Indicators.resetPreMarketLowLineSeries(widget);
-                }
-                if (element.high > premktHigh) {
-                    premktHigh = Math.ceil(element.high * 100) / 100;
-                    window.TradingApp.Indicators.resetPreMarketHighLineSeries(widget);
-                }
-
             } else {
                 // update in-market indicators
                 if (element.low < lowOfDay) {
@@ -142,7 +122,6 @@ window.TradingApp.DB = (function () {
 
             totalVolume += element.volume;
             totalTradingAmount += (element.volume * getTypicalPrice(element));
-            window.TradingApp.Indicators.populatePreMarketLineSeries(newD, premktHigh, premktLow, window.TradingApp.Main.widgets[symbol]);
 
             // simulate auto trader
             if (isMarketOpenTime(d)) {
@@ -205,8 +184,6 @@ window.TradingApp.DB = (function () {
             orbArea: orbArea,
             highOfDay: highOfDay,
             lowOfDay: lowOfDay,
-            premktHigh: premktHigh,
-            premktLow: premktLow,
             bid: 0,
             ask: 0
         };
@@ -220,10 +197,6 @@ window.TradingApp.DB = (function () {
             window.TradingApp.Indicators.drawIndicatorsForNewlyClosedCandle(
                 i, dataBySymbol[symbol].candles, window.TradingApp.Main.widgets[symbol]
             );
-        }
-        if (!window.TradingApp.Settings.drawIndicatorsAsSeries) {
-            window.TradingApp.Indicators.drawPreMarketHigh(dataBySymbol[symbol].premktHigh, window.TradingApp.Main.widgets[symbol]);
-            window.TradingApp.Indicators.drawPreMarketLow(dataBySymbol[symbol].premktLow, window.TradingApp.Main.widgets[symbol]);
         }
     };
 
@@ -345,8 +318,6 @@ window.TradingApp.DB = (function () {
             addOrbAreaCandle(newTime, globalData.orbArea, globalData.openingCandle);
             if (globalData.orbArea[globalData.orbArea.length - 1])
                 window.TradingApp.Main.widgets[symbol].orbSeries.update(globalData.orbArea[globalData.orbArea.length - 1]);
-            window.TradingApp.Indicators.populatePreMarketLineSeries(newTime, globalData.premktHigh, globalData.premktLow, widget);
-
         }
         window.TradingApp.Main.widgets[symbol].candleSeries.update(lastCandle);
         window.TradingApp.Main.widgets[symbol].volumeSeries.update(lastVolume);
