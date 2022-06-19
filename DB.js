@@ -200,6 +200,7 @@ window.TradingApp.DB = (function () {
         }
     };
 
+
     const updateFromTimeSale = (timesale) => {
         let globalDatabySymbol = window.TradingApp.DB.dataBySymbol;
         let symbol = timesale.symbol;
