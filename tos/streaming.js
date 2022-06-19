@@ -71,17 +71,7 @@ window.TradingApp.Streaming = (function () {
         return request;
     }
 
-    const createESTimeSaleRequest = (requestId, userPrincipal) => {
-        let request = createRequestBase(requestId, userPrincipal, "TIMESALE_FUTURES", "SUBS");
-        request.parameters = {
-            "keys": "/ES",
-            "fields": "0,1,2,3,4"
-        };
-        return request;
-    }
-
-    const createStockTimeSaleRequest = () => {
-        let request = createRequestBase(window.TradingApp.Streaming.requestCounter++, window.TradingApp.TOS.userPrincipal, "TIMESALE_EQUITY", "SUBS");
+    const createFuturesTimeSaleRequest = (requestId, userPrincipal) => {
         let symbols = "";
         for (let i = 0; i < window.TradingApp.Watchlist.length; i++) {
             let s = window.TradingApp.Watchlist[i].symbol;
@@ -91,12 +81,13 @@ window.TradingApp.Streaming = (function () {
                 symbols += ("," + s);
             }
         }
+        let request = createRequestBase(requestId, userPrincipal, "TIMESALE_FUTURES", "SUBS");
         request.parameters = {
             "keys": symbols,
             "fields": "0,1,2,3,4"
         };
         return request;
-    };
+    }
 
     const sendStockTimeSaleRequest = (symbol) => {
         let request = createRequestBase(window.TradingApp.Streaming.requestCounter++, window.TradingApp.TOS.userPrincipal, "TIMESALE_EQUITY", "SUBS");
@@ -188,7 +179,7 @@ window.TradingApp.Streaming = (function () {
         requestCounter,
         createLoginRequest,
         createMainRequest,
-        createStockTimeSaleRequest,
+        createFuturesTimeSaleRequest,
         sendStockTimeSaleRequest,
         createStockLevelOneQuoteRequest,
         createTimeSale,
