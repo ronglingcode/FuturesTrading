@@ -47,10 +47,8 @@ const createWebSocket = async () => {
                     let mainRequest = window.TradingApp.Streaming.createMainRequest();
                     websocket.send(JSON.stringify(mainRequest));
                     // the earliest time we can start streaming is right after
-                    let stockRequest = window.TradingApp.Streaming.createStockTimeSaleRequest();
+                    let stockRequest = window.TradingApp.Streaming.createFuturesTimeSaleRequest();
                     websocket.send(JSON.stringify(stockRequest));
-                    let quoteRequest = window.TradingApp.Streaming.createStockLevelOneQuoteRequest();
-                    websocket.send(JSON.stringify(quoteRequest));
                 } else {
                     console.log(messageEvent);
                 }

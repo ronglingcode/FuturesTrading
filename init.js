@@ -1,59 +1,17 @@
 window.TradingApp = {
     'Settings': {
-        'currentDay': new Date(), //('2022-01-28 6:30'),
+        'currentDay': new Date('2022-06-17 6:30'), //('2022-01-28 6:30'),
         'drawIndicatorsAsSeries': true,
         'preMarketTrading': false
     },
     'Algo': {},
     'StockCandidates': {
-        'BABA': {
-            symbol: 'BABA', volumeSum: 1935862, tradingSum: 214544639, premktHigh: 0, premktLow: 99999999,
+        '/MES': {
+            symbol: '/MES', volumeSum: 0, tradingSum: 0, premktHigh: 0, premktLow: 0,
             //bias: 'short',
-            boxup: 119.5, boxdown: 118
+            //boxup: 119.5, boxdown: 118
         },
-        'ROKU': {
-            symbol: 'ROKU', volumeSum: 82307, tradingSum: 6734784, premktHigh: 0, premktLow: 99999999,
-            //bias: 'short',
-            boxup: 81.5
-        },
-        'AAPL': {
-            symbol: 'NVAX', volumeSum: 0, tradingSum: 0, premktHigh: 0, premktLow: 99999999,
-            //bias: 'short',
-            //boxup: 47.75, boxdown: 46
-        },
-        'AMD': {
-            symbol: 'AMD', volumeSum: 0, tradingSum: 0, premktHigh: 0, premktLow: 99999999,
-            //bias: 'short',
-            boxup: 67.5, boxdown: 66.25
-        },
-        'TSLA': {
-            symbol: 'TSLA', volumeSum: 314025, tradingSum: 211453676, premktHigh: 0, premktLow: 99999999,
-            //bias: 'short',
-            // boxup: 63.5, boxdown: 62
-        },
-        'PDD': {
-            symbol: 'PDD', volumeSum: 344203, tradingSum: 21510668, premktHigh: 0, premktLow: 99999999,
-            //bias: 'long',
-            boxup: 63.5, boxdown: 62
-        },
-        'BA': {
-            symbol: 'BA', volumeSum: 0, tradingSum: 0, premktHigh: 0, premktLow: 99999999,
-            //bias: 'long',
-            //boxup: 91.25, boxdown: 90,
-        },
-        'SPY': {
-            symbol: 'SPY', volumeSum: 0, tradingSum: 0, premktHigh: 0, premktLow: 99999999,
-            //bias: 'short',
-            //boxdown: 80, boxup: 88
-        },
-        'QQQ': {
-            symbol: 'QQQ', volumeSum: 0, tradingSum: 0, premktHigh: 0, premktLow: 99999999,
-            //bias: 'short',
-            //boxup: 22, boxdown: 21.1
-        },
-        'IWM': {
-            symbol: 'IWM', volumeSum: 0, tradingSum: 0, premktHigh: 0, premktLow: 99999999,
-        }
+
     },
     'State': {
         activeSymbol: '',
@@ -64,8 +22,8 @@ window.TradingApp = {
 // only pick the best stocks, stocks with biggest news to trade
 // be selective
 let currentDay = window.TradingApp.Settings.currentDay;
-let bestStocksToTradeToday = window.TradingData.StockSelection[currentDay.toLocaleDateString()];
-window.TradingApp.Watchlist = []
+let bestStocksToTradeToday = ['/MES'];
+window.TradingApp.Watchlist = [];
 bestStocksToTradeToday.forEach(symbol => {
     window.TradingApp.Watchlist.push(window.TradingApp.StockCandidates[symbol]);
 });
