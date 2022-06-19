@@ -71,7 +71,8 @@ window.TradingApp.Streaming = (function () {
         return request;
     }
 
-    const createFuturesTimeSaleRequest = (requestId, userPrincipal) => {
+    const createFuturesTimeSaleRequest = () => {
+        let request = createRequestBase(window.TradingApp.Streaming.requestCounter++, window.TradingApp.TOS.userPrincipal, "TIMESALE_FUTURES", "SUBS");
         let symbols = "";
         for (let i = 0; i < window.TradingApp.Watchlist.length; i++) {
             let s = window.TradingApp.Watchlist[i].symbol;
@@ -81,7 +82,6 @@ window.TradingApp.Streaming = (function () {
                 symbols += ("," + s);
             }
         }
-        let request = createRequestBase(requestId, userPrincipal, "TIMESALE_FUTURES", "SUBS");
         request.parameters = {
             "keys": symbols,
             "fields": "0,1,2,3,4"
@@ -96,24 +96,6 @@ window.TradingApp.Streaming = (function () {
             "fields": "0,1,2,3,4"
         };
         window.TradingApp.Streaming.socket.send(JSON.stringify(request));
-    }
-
-    const createStockLevelOneQuoteRequest = () => {
-        let request = createRequestBase(window.TradingApp.Streaming.requestCounter++, window.TradingApp.TOS.userPrincipal, "QUOTE", "SUBS");
-        let symbols = "";
-        for (let i = 0; i < window.TradingApp.Watchlist.length; i++) {
-            let s = window.TradingApp.Watchlist[i].symbol;
-            if (i == 0) {
-                symbols += s;
-            } else {
-                symbols += ("," + s);
-            }
-        }
-        request.parameters = {
-            "keys": symbols,
-            "fields": "0,1,2"
-        };
-        return request;
     };
 
     const createTimeSale = (c) => {
@@ -181,7 +163,6 @@ window.TradingApp.Streaming = (function () {
         createMainRequest,
         createFuturesTimeSaleRequest,
         sendStockTimeSaleRequest,
-        createStockLevelOneQuoteRequest,
         createTimeSale,
         createLevelOneQuote,
         createAccountActivity,
