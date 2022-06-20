@@ -134,6 +134,7 @@ window.TradingApp.Chart = (function () {
         widget.htmlContents.chart.addEventListener('contextmenu', event => {
             event.preventDefault();
             let crosshairPrice = window.TradingApp.Main.widgets[symbol].crosshairPrice;
+            crosshairPrice = Math.round(crosshairPrice * 4) / 4;
             window.TradingApp.Chart.drawEntry(symbol, crosshairPrice);
         });
 

@@ -345,6 +345,7 @@ window.TradingApp.OrderFactory = (function () {
 
     return {
         createMarketOrder,
+        createStopOrder,
         createPreMarketOrder,
         createTestOrder,
         createTestOcoOrder,

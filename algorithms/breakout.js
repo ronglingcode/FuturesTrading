@@ -119,22 +119,10 @@ window.TradingApp.Algo.Breakout = (function () {
         return true;
     };
 
-    const submitBreakoutOrders = async (symbol, entryPrice, stopOut, setupQuality, multiplier) => {
-        let orders = [];
-        if (window.TradingApp.Settings.preMarketTrading) {
-            orders = window.TradingApp.OrderFactory.createPreMarketOrderWithFixedRisk(symbol, entryPrice, stopOut, setupQuality, multiplier);
-        } else {
-            let checkResult = checkRules(symbol, entryPrice, stopOut);
-            if (checkResult == 0) {
-                return;
-            }
-            multiplier = multiplier * checkResult;
-            let orderType = window.TradingApp.OrderFactory.OrderType.STOP;
-            orders = window.TradingApp.OrderFactory.createEntryOrdersWithFixedRisk(symbol, orderType, entryPrice, stopOut, setupQuality, multiplier);
-        }
-        orders.forEach(order => {
-            window.TradingApp.TOS.placeOrderBase(order);
-        });
+    const submitBreakoutEntryOrder = async (symbol, entryPrice, quantity, orderLegInstruction) => {
+        let order = window.TradingApp.OrderFactory.createStopOrder(symbol, quantity, entryPrice, orderLegInstruction);
+        window.TradingApp.TOS.placeOrderBase(order);
+
     };
 
     const getStopLossPrice = (symbol, code) => {
@@ -181,26 +169,22 @@ window.TradingApp.Algo.Breakout = (function () {
         return p;
     };
 
-    const test = () => {
-        submitBreakoutOrders("MSFT", 340, 320, "a", 1);
-    };
 
     const prepareBreakoutOrders = (symbol, code) => {
-        let stopOutPrice = getStopLossPrice(symbol, code);
         let entryPrice = getEntryPrice(symbol, code);
+        let orderInstruction = "";
         if (code === "KeyB") {
             window.TradingApp.Firestore.logInfo("breakout buy for " + symbol);
+            orderInstruction = "BUY";
         } else if (code === "KeyS") {
             window.TradingApp.Firestore.logInfo("breakdown sell for " + symbol);
+            orderInstruction = "SELL";
         }
-        let multiplier = window.TradingApp.Chart.getMultiplier(window.TradingApp.Main.widgets[symbol]);
-        submitBreakoutOrders(symbol, entryPrice, stopOutPrice, "A", multiplier);
+        submitBreakoutEntryOrder(symbol, entryPrice, 1, orderInstruction);
     };
 
     return {
-        submitBreakoutOrders,
         prepareBreakoutOrders,
-        test,
         getStopLossPrice,
         getEntryPrice,
         checkRules,
